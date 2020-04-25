@@ -1,6 +1,5 @@
 <section class="phx-hero">
-  <h1>Game <%= @round.game_id %> - Round <%= @round.id %></h1>
-  <h2>Topic: <%= @round.topic %></h2>
+  <h1><%= link("Game #{@round.game_id}", to: Routes.game_path(Endpoint, :view, @round.game_id)) %> - Round: <%= @round.topic %></h1>
 </section>
 
 <section class="row">
@@ -11,7 +10,11 @@
         <li>No players</li>
       <% end %>
       <%= for user <- @users do %>
-        <li>Player - <%= user.email %></li>
+        <li>
+          Player - <%= user.email %>
+          <%= if @round.user_id == user.id do %>*<% end %>
+          - Score <%= @scores[user.id] %>
+        </li>
       <% end %>
     </ul>
   </article>
@@ -27,7 +30,9 @@
         <%= for submission <- @submissions do %>
           <li>
             <%= submission.answer %>
-            <%= button("Vote", to: Routes.game_path(Endpoint, :vote, @round.game_id, @round.id, submission.id)) %>
+            <%= if has_not_voted(@user, @votes) do %>
+              <%= button("Vote", to: Routes.game_path(Endpoint, :vote, @round.game_id, @round.id, submission.id)) %>
+            <% end %>
           </li>
         <% end %>
       <% else %>

@@ -17,8 +17,9 @@ defmodule MalarkeyWeb.GameController do
   end
 
   def new_round(conn, params) do
+    user = Pow.Plug.current_user(conn)
     game = find_game(params)
-    {:ok, round} = Games.start_round(game, params["topic"])
+    {:ok, round} = Games.start_round(game, user, params["topic"])
 
     redirect(conn, to: Routes.game_path(Endpoint, :view_round, game.id, round.id))
   end
@@ -34,13 +35,17 @@ defmodule MalarkeyWeb.GameController do
   end
 
   def view_round(conn, params) do
+    user = Pow.Plug.current_user(conn)
     game = find_game(params)
     round = find_round(params)
 
     conn
+    |> assign(:user, user)
     |> assign(:round, round)
     |> assign(:users, game.users)
     |> assign(:submissions, round.submissions)
+    |> assign(:votes, round.votes)
+    |> assign(:scores, Games.score(game))
     |> render("view_round.html")
   end
 
@@ -67,7 +72,9 @@ defmodule MalarkeyWeb.GameController do
     round = find_round(params)
     submission = find_submission(params)
 
-    Games.vote(user, submission)
+    if round.user_id != user.id do
+      Games.vote(user, submission)
+    end
 
     redirect(conn, to: Routes.game_path(Endpoint, :view_round, round.game_id, round.id))
   end

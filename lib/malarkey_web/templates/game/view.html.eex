@@ -25,7 +25,7 @@
     <ul>
       <%= for round <- @rounds do %>
         <li>
-          <%= link("Round #{round.id}", to: "/#{@game.id}/round/#{round.id}") %>
+          <%= link("Round - #{round.topic}", to: "/#{@game.id}/round/#{round.id}") %>
         </li>
       <% end %>
     </ul>
