@@ -23,6 +23,12 @@
           <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
         </a>
       </section>
+      <%= if Pow.Plug.current_user(@conn) do %>
+        <span><%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %></span>
+      <% else %>
+        <span><%= link "Register", to: Routes.pow_registration_path(@conn, :new) %></span>
+        <span><%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %></span>
+      <% end %>
     </header>
     <main role="main" class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
