@@ -12,7 +12,7 @@
       <% end %>
       <%= for user <- @users do %>
         <li>
-          Player - <%= user.email %> - Score <%= @scores[user.id] %>
+          Player - <%= user.email %> - Score <%= Map.get(@scores, user.id, 0) %>
         </li>
       <% end %>
     </ul>

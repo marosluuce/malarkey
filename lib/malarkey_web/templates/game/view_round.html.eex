@@ -13,7 +13,7 @@
         <li>
           Player - <%= user.email %>
           <%= if @round.user_id == user.id do %>*<% end %>
-          - Score <%= @scores[user.id] %>
+          - Score <%= Map.get(@scores, user.id, 0) %>
         </li>
       <% end %>
     </ul>
