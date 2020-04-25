@@ -3,7 +3,7 @@ defmodule Malarkey.Games.Game do
   import Ecto.Changeset
 
   alias __MODULE__
-  alias Malarkey.Games.Player
+  alias Malarkey.Games.{Player, Round}
 
   schema "games" do
     field :finished, :boolean, default: false

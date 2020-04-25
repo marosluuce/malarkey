@@ -1,0 +1,15 @@
+<section class="phx-hero">
+  <h1>Welcome to Malarkey</h1>
+</section>
+
+<section class="row">
+  <article class="column">
+    <h2>Games</h2>
+    <%= button("New Game", to: "/new") %>
+    <ul>
+      <%= for game <- @games do %>
+        <li><%= link("Game #{game.id}", to: "/#{game.id}") %></li>
+      <% end %>
+    </ul>
+  </article>
+</section>

@@ -38,6 +38,8 @@ defmodule MalarkeyWeb do
 
       # Include shared imports and aliases for views
       unquote(view_helpers())
+      alias MalarkeyWeb.Endpoint
+      alias MalarkeyWeb.Router.Helpers, as: Routes
     end
   end
 

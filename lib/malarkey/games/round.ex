@@ -3,7 +3,7 @@ defmodule Malarkey.Games.Round do
   import Ecto.Changeset
 
   alias __MODULE__
-  alias Malarkey.Games.Game
+  alias Malarkey.Games.{Game, Submission}
 
   schema "rounds" do
     field :topic, :string
@@ -17,7 +17,7 @@ defmodule Malarkey.Games.Round do
 
   def changeset(attrs) do
     %Round{}
-    |> cast(attrs, [:topic])
-    |> validate_required([:topic])
+    |> cast(attrs, [:game_id, :topic])
+    |> validate_required([:game_id, :topic])
   end
 end

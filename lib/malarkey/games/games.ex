@@ -8,6 +8,10 @@ defmodule Malarkey.Games do
     Repo.insert(Game.new_changeset())
   end
 
+  def all do
+    Repo.all(Game)
+  end
+
   def finish(game) do
     game
     |> Game.finish_changeset()
@@ -42,17 +46,21 @@ defmodule Malarkey.Games do
   end
 
   def vote(user, submission) do
-    %{user_id: user.id, submission_id: submission.id, round_id: submission.id}
+    %{user_id: user.id, submission_id: submission.id, round_id: submission.round_id}
     |> Vote.changeset()
     |> Repo.insert()
   end
 
   def find_game(id) do
-    Repo.get(Game, id)
+    Game
+    |> Repo.get(id)
+    |> Repo.preload([:users, :rounds])
   end
 
   def find_round(id) do
-    Repo.get(Round, id)
+    Round
+    |> Repo.get(id)
+    |> Repo.preload([:submissions, :votes])
   end
 
   def find_submission(id) do

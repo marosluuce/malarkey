@@ -1,0 +1,38 @@
+<section class="phx-hero">
+  <h1>Game <%= @round.game_id %> - Round <%= @round.id %></h1>
+  <h2>Topic: <%= @round.topic %></h2>
+</section>
+
+<section class="row">
+  <article class="column">
+    <h2>Players</h2>
+    <ul>
+      <%= if Enum.count(@users) == 0 do %>
+        <li>No players</li>
+      <% end %>
+      <%= for user <- @users do %>
+        <li>Player - <%= user.email %></li>
+      <% end %>
+    </ul>
+  </article>
+  <article class="column">
+    <h2>Submissions</h2>
+    <%= form_for @conn, Routes.game_path(Endpoint, :submit, @round.game_id, @round.id), fn f -> %>
+      <%= label(f, :answer, "Answer") %>
+      <%= text_input(f, :answer) %>
+      <%= submit("Submit Answer") %>
+    <% end %>
+    <ul>
+      <%= if Enum.count(@users) == Enum.count(@submissions) do %>
+        <%= for submission <- @submissions do %>
+          <li>
+            <%= submission.answer %>
+            <%= button("Vote", to: Routes.game_path(Endpoint, :vote, @round.game_id, @round.id, submission.id)) %>
+          </li>
+        <% end %>
+      <% else %>
+        <li>Waiting for all answers</li>
+      <% end %>
+    </ul>
+  </article>
+</section>

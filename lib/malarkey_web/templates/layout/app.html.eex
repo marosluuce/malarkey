@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Malarkey · Phoenix Framework</title>
+    <title>Malarkey</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
@@ -13,22 +13,16 @@
       <section class="container">
         <nav role="navigation">
           <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
+            <%= if Pow.Plug.current_user(@conn) do %>
+              <li><%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %></li>
+            <% else %>
+              <li><%= link "Register", to: Routes.pow_registration_path(@conn, :new) %></li>
+              <li><%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %></li>
             <% end %>
           </ul>
         </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
+        <h1><%= link("Malarkey!", to: "/") %></h1>
       </section>
-      <%= if Pow.Plug.current_user(@conn) do %>
-        <span><%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %></span>
-      <% else %>
-        <span><%= link "Register", to: Routes.pow_registration_path(@conn, :new) %></span>
-        <span><%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %></span>
-      <% end %>
     </header>
     <main role="main" class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

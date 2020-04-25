@@ -15,8 +15,8 @@ defmodule Malarkey.Games.Player do
 
   def changeset(attrs) do
     %Player{}
-    |> cast(attrs, [:game_id, :player_id])
-    |> validate_required([:game_id, :player_id])
-    |> unique_constraint([:game_id, :player_id], name: :players_game_user_index)
+    |> cast(attrs, [:game_id, :user_id])
+    |> validate_required([:game_id, :user_id])
+    |> unique_constraint([:game_id, :user_id], name: :players_game_id_user_id_index)
   end
 end

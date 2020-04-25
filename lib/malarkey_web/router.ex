@@ -28,7 +28,14 @@ defmodule MalarkeyWeb.Router do
   scope "/", MalarkeyWeb do
     pipe_through [:browser, :protected]
 
-    get "/", PageController, :index
+    get "/", GameController, :index
+    post "/new", GameController, :new
+    get "/:id", GameController, :view
+    post "/:id/join", GameController, :join
+    post "/:id/round/new", GameController, :new_round
+    get "/:id/round/:round_id", GameController, :view_round
+    post "/:id/round/:round_id", GameController, :submit
+    post "/:id/round/:round_id/vote/:submission_id", GameController, :vote
   end
 
   # Other scopes may use custom stacks.
