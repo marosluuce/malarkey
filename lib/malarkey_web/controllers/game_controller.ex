@@ -31,6 +31,7 @@ defmodule MalarkeyWeb.GameController do
     |> assign(:game, game)
     |> assign(:users, game.users)
     |> assign(:rounds, game.rounds)
+    |> assign(:scores, Games.score(game))
     |> render("view.html")
   end
 
