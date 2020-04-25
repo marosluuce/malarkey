@@ -12,9 +12,7 @@
       <% end %>
       <%= for user <- @users do %>
         <li>
-          Player - <%= user.email %>
-          <%= if @round.user_id == user.id do %>*<% end %>
-          - Score <%= @scores[user.id] %>
+          Player - <%= user.email %> - Score <%= @scores[user.id] %>
         </li>
       <% end %>
     </ul>
