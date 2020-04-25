@@ -30,7 +30,7 @@
         <%= for submission <- @submissions do %>
           <li>
             <%= submission.answer %>
-            <%= if has_not_voted(@user, @votes) do %>
+            <%= if has_not_voted(@user, @votes) and @round.user_id != @user.id do %>
               <%= button("Vote", to: Routes.game_path(Endpoint, :vote, @round.game_id, @round.id, submission.id)) %>
             <% end %>
           </li>

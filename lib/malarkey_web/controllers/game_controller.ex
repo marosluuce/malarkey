@@ -73,9 +73,7 @@ defmodule MalarkeyWeb.GameController do
     round = find_round(params)
     submission = find_submission(params)
 
-    if round.user_id != user.id do
-      Games.vote(user, submission)
-    end
+    Games.vote(user, submission)
 
     redirect(conn, to: Routes.game_path(Endpoint, :view_round, round.game_id, round.id))
   end
