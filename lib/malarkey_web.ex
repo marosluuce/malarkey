@@ -35,6 +35,7 @@ defmodule MalarkeyWeb do
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
+      import Phoenix.LiveView.Helpers
 
       # Include shared imports and aliases for views
       unquote(view_helpers())
@@ -43,9 +44,17 @@ defmodule MalarkeyWeb do
     end
   end
 
+  def live_view do
+    quote do
+      use Phoenix.LiveView, layout: {MalarkeyWeb.LayoutView, "live.html"}
+      alias MalarkeyWeb.Router.Helpers, as: Routes
+    end
+  end
+
   def router do
     quote do
       use Phoenix.Router
+      import Phoenix.LiveView.Router
 
       import Plug.Conn
       import Phoenix.Controller

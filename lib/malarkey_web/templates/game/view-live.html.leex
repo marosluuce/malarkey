@@ -5,12 +5,14 @@
 <section class="row">
   <article class="column">
     <h2>Players</h2>
-    <%= button("Join", to: "/#{@game.id}/join") %>
+    <%= if @user not in @game.users do %>
+      <button phx-click="join">Join</button>
+    <% end %>
     <ul>
-      <%= if Enum.count(@users) == 0 do %>
+      <%= if Enum.count(@game.users) == 0 do %>
         <li>No players</li>
       <% end %>
-      <%= for user <- @users do %>
+      <%= for user <- @game.users do %>
         <li>
           Player - <%= user.email %> - Score <%= Map.get(@scores, user.id, 0) %>
         </li>
@@ -19,15 +21,15 @@
   </article>
   <article class="column">
     <h2>Rounds</h2>
-    <%= form_for @conn, Routes.game_path(Endpoint, :new_round, @game.id), fn f -> %>
+    <%= f = form_for @changeset, "#", [phx_submit: :save] %>
       <%= label(f, :topic, "Topic") %>
-      <%= text_input(f, :topic) %>
+      <%= text_input(f, :topic, autocomplete: "off") %>
       <%= submit("New Round") %>
-    <% end %>
+    </form>
     <ul>
-      <%= for round <- @rounds do %>
+      <%= for round <- @game.rounds do %>
         <li>
-          <%= link("Round - #{round.topic}", to: "/#{@game.id}/round/#{round.id}") %>
+          <%= live_redirect("Round - #{round.topic}", to: Routes.round_path(@socket, :index, round.game_id, round.id)) %>
         </li>
       <% end %>
     </ul>

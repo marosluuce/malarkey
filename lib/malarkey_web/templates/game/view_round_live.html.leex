@@ -1,0 +1,57 @@
+<section class="phx-hero">
+  <h1><%= link("Game #{@round.game_id}", to: Routes.game_path(@socket, :index, @round.game_id)) %> - Round: <%= @round.topic %></h1>
+</section>
+
+<section class="row">
+  <article class="column">
+    <h2>Players</h2>
+    <ul>
+      <%= if Enum.count(@game.users) == 0 do %>
+        <li>No players</li>
+      <% end %>
+      <%= for user <- @game.users do %>
+        <li>
+          Player - <%= user.email %>
+          <%= if @round.user_id == user.id do %>*<% end %>
+          - Score <%= Map.get(@scores, user.id, 0) %>
+        </li>
+      <% end %>
+    </ul>
+  </article>
+  <article class="column">
+    <h2>Submissions</h2>
+    <%= if not(@has_answered) do %>
+    <%= f = form_for @changeset, "#", [phx_submit: :submit_answer] %>
+      <%= label(f, :answer, "Answer") %>
+      <%= text_input(f, :answer, autocomplete: "off") %>
+      <%= submit("Submit Answer") %>
+    </form>
+  <% end %>
+    <ul>
+      <%= if Enum.count(@game.users) == Enum.count(@round.submissions) do %>
+        <%= for submission <- @round.submissions do %>
+          <li class="submission">
+            <span>
+            <%= submission.answer %>
+            </span>
+            <%= if has_not_voted(@user, @round.votes) and @round.user_id != @user.id and submission.user_id != @user.id do %>
+              <button phx-click="vote" phx-value-submission="<%= submission.id %>">Vote</button>
+            <% end %>
+            <ul>
+            <%= if Enum.count(@round.votes) == Enum.count(@game.users) - 1 do %>
+              <li>
+                Votes: <%= Enum.filter(@round.votes, &(&1.submission_id == submission.id)) |> Enum.count() %>
+              </li>
+              <li>
+                By: <%= submission.user.email %>
+              </li>
+            <% end %>
+            </ul>
+          </li>
+        <% end %>
+      <% else %>
+        <li>Waiting for all answers</li>
+      <% end %>
+    </ul>
+  </article>
+</section>

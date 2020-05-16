@@ -92,7 +92,7 @@ defmodule Malarkey.Games do
   def find_round(id) do
     Round
     |> Repo.get(id)
-    |> Repo.preload([:submissions, votes: [:submission]])
+    |> Repo.preload(submissions: [:user], votes: [:submission])
   end
 
   def find_submission(id) do
