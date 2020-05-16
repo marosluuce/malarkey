@@ -11,8 +11,9 @@ use Mix.Config
 # before starting your production server.
 config :malarkey, MalarkeyWeb.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: " fathomless-dusk-83598.herokuapp.com", port: 443],
+  url: [scheme: "https", host: "fathomless-dusk-83598.herokuapp.com", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
+  check_origin: ["fathomless-dusk-83598.herokuapp.com"],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
