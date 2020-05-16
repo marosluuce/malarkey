@@ -28,6 +28,8 @@ defmodule MalarkeyWeb.Router do
   scope "/", MalarkeyWeb do
     pipe_through [:browser, :protected]
 
+    live "/l", GameLive, :index
+
     get "/", GameController, :index
     post "/new", GameController, :new
     get "/:id", GameController, :view
