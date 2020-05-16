@@ -25,8 +25,7 @@ defmodule MalarkeyWeb.GamesLive do
   end
 
   def handle_event("new_game", _, socket) do
-    %{games: games} = socket.assigns
-    {:ok, game} = Games.new()
+    {:ok, _} = Games.new()
     PubSub.broadcast(Malarkey.PubSub, topic(socket), :new_game)
 
     {:noreply, socket}

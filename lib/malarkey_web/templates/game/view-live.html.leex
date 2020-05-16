@@ -5,7 +5,7 @@
 <section class="row">
   <article class="column">
     <h2>Players</h2>
-    <%= if not @user in @game.users do %>
+    <%= if @user not in @game.users do %>
       <button phx-click="join">Join</button>
     <% end %>
     <ul>
@@ -23,7 +23,7 @@
     <h2>Rounds</h2>
     <%= f = form_for @changeset, "#", [phx_submit: :save] %>
       <%= label(f, :topic, "Topic") %>
-      <%= text_input(f, :topic) %>
+      <%= text_input(f, :topic, autocomplete: "off") %>
       <%= submit("New Round") %>
     </form>
     <ul>
