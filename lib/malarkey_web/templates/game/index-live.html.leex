@@ -8,7 +8,7 @@
     <button phx-click="new_game">New Game+</button>
     <ul>
       <%= for game <- @games do %>
-        <li><%= link("Game #{game.id}", to: "/#{game.id}") %></li>
+        <li><%= live_redirect("Game #{game.id}", to: Routes.game_path(@socket, :index, game.id)) %></li>
       <% end %>
     </ul>
   </article>

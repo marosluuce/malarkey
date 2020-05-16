@@ -1,0 +1,37 @@
+<section class="phx-hero">
+  <h1>Game <%= @game.id %></h1>
+</section>
+
+<section class="row">
+  <article class="column">
+    <h2>Players</h2>
+    <%= if not @user in @game.users do %>
+      <button phx-click="join">Join</button>
+    <% end %>
+    <ul>
+      <%= if Enum.count(@game.users) == 0 do %>
+        <li>No players</li>
+      <% end %>
+      <%= for user <- @game.users do %>
+        <li>
+          Player - <%= user.email %> - Score <%= Map.get(@scores, user.id, 0) %>
+        </li>
+      <% end %>
+    </ul>
+  </article>
+  <article class="column">
+    <h2>Rounds</h2>
+    <%= f = form_for @changeset, "#", [phx_submit: :save] %>
+      <%= label(f, :topic, "Topic") %>
+      <%= text_input(f, :topic) %>
+      <%= submit("New Round") %>
+    </form>
+    <ul>
+      <%= for round <- @game.rounds do %>
+        <li>
+          <%= live_redirect("Round - #{round.topic}", to: Routes.round_path(@socket, :index, round.game_id, round.id)) %>
+        </li>
+      <% end %>
+    </ul>
+  </article>
+</section>

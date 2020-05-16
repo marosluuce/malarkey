@@ -6,6 +6,7 @@ defmodule MalarkeyWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
+    plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -28,16 +29,9 @@ defmodule MalarkeyWeb.Router do
   scope "/", MalarkeyWeb do
     pipe_through [:browser, :protected]
 
-    live "/l", GameLive, :index
-
-    get "/", GameController, :index
-    post "/new", GameController, :new
-    get "/:id", GameController, :view
-    post "/:id/join", GameController, :join
-    post "/:id/round/new", GameController, :new_round
-    get "/:id/round/:round_id", GameController, :view_round
-    post "/:id/round/:round_id", GameController, :submit
-    post "/:id/round/:round_id/vote/:submission_id", GameController, :vote
+    live "/", GamesLive, :index
+    live "/:id", GameLive, :index
+    live "/:game_id/round/:round_id", RoundLive, :index
   end
 
   # Other scopes may use custom stacks.

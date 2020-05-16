@@ -47,6 +47,7 @@ defmodule MalarkeyWeb do
   def live_view do
     quote do
       use Phoenix.LiveView, layout: {MalarkeyWeb.LayoutView, "live.html"}
+      alias MalarkeyWeb.Router.Helpers, as: Routes
     end
   end
 
