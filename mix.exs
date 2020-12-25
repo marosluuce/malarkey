@@ -35,6 +35,7 @@ defmodule Malarkey.MixProject do
     [
       {:phoenix, "~> 1.5.7"},
       {:phoenix_ecto, "~> 4.2.1"},
+      {:ecto, "~> 3.5.5", override: true},
       {:ecto_sql, "~> 3.5.3"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.14.3"},
