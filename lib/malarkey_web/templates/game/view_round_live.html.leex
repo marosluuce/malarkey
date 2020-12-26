@@ -29,7 +29,7 @@
   <% end %>
     <ul>
       <%= if Enum.count(@game.users) == Enum.count(@round.submissions) do %>
-        <%= for submission <- @round.submissions do %>
+        <%= for submission <- Enum.shuffle(@round.submissions) do %>
           <li class="submission">
             <span>
             <%= submission.answer %>
